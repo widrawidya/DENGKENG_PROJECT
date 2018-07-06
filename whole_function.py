@@ -38,6 +38,12 @@ def whole(df,h_mulai,h_selesai) :
 
 #OPSI 2 - tanpa membuat dataframe baru (sedikit boros script, sulit memahami ulang script)
 def whole(df,h_mulai,h_selesai) :
+ '''
+ @param df is dataframe object from mysql table that declared before
+ @param h_mulai is date object that declared before
+ @param h_selesai is date object that declared before
+ @return data_stat is dictionary that describe data_status from selected data
+ '''
 	jumlah_hari = int((h_selesai-h_mulai).days)+1
 	jumlah_data = len(df[(df['dt'] >= h_mulai) & (df['dt'] < (h_selesai + timedelta(days=1)))])
 	#prosentase = jumlah_data/(288*jumlah_hari)*100 #Perhitungan prosentase data yang masuk
