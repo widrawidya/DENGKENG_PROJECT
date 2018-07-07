@@ -13,9 +13,6 @@ def whole() :
 				ORDER BY `dt` ASC"""
 
 	db_connection = sql.connect(host='localhost', database='dengkeng', user='root', password='')
-	db_cursor = db_connection.cursor()
-	db_cursor.execute(query_)
-	table_rows = db_cursor.fetchall()
 	df = pd.read_sql(query_, con=db_connection, index_col=None)
 		
 	h_mulai = df["dt"].min()
