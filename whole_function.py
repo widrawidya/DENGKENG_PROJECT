@@ -1,4 +1,4 @@
-#BREAKDOWN 2 : WHOLE_FUNCTION REV-2
+#BREAKDOWN 2 : WHOLE_FUNCTION REV-3
 
 import mysql.connector as sql
 import pandas as pd
@@ -6,7 +6,9 @@ from datetime import datetime, timedelta
 
 def whole() :
 
-	'''@return data_stat is dictionary that describe data_status from selected data'''
+	'''@return data_stat is dictionary that describe data_status from selected data
+		@var expected is based on asumption that must be 1 data every 5 minutes
+	'''
 	
 	query_ = """SELECT cast(concat(SamplingDate, ' ', SamplingTime) as datetime) as dt, WLevel 
 				FROM `dengkeng`
@@ -19,14 +21,12 @@ def whole() :
 	h_selesai = df["dt"].max()
 
 	jumlah_hari = int((h_selesai-h_mulai).days)+1
-	jumlah_data = len(df)
-	#prosentase = jumlah_data/(288*jumlah_hari)*100 #Perhitungan prosentase data yang masuk
 
 	deviasi = df["WLevel"].std()
 	minimal = df["WLevel"].min()
 	maksimal = df["WLevel"].max()
 	jumlah_data = len(df)
-	expected = (288*jumlah_hari)
+	expected = int(((h_selesai-h_mulai).total_seconds()/60)/5)
 	data_stat = {"std":deviasi, "min":minimal, "max":maksimal, "num_record":jumlah_data, "num_record_expected":expected, "sampling_min":h_mulai, "sampling_max":h_selesai}
 	return data_stat
 
