@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+	<article class="media content-section">
+		<div class="media-body">
+			<div class="article-metadata">
+				<h2 class="article-title" href="#">Keseluruhan Data</h2>
+			</div>
+		<p class="article-content">Penjabaran Content</p>
+		<h3 class="article-title">Grafik Tinggi Muka Air </h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole.svg')}}" height="370" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Diagram Jumlah Data </h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole_pie.svg')}}" height="370" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Statistik Data </h3>
+			<p class="article-content">
+				Tanggal Mulai : {{ data.sampling_min }} 
+				Tanggal Selesai : {{ data.sampling_max }} 
+				Data Minimal : {{ data.min }} meter
+				Data Maksimal : {{ data.max }} meter
+				Standar Deviasi : {{ data.std }} meter
+				Jumlah Data Masuk : {{ data.num_record }} data
+				Jumlah Data Seharusnya : {{ data.num_record_expected }} data
+			</p>
+		</div>
+	</article>
+{% endblock content %}
