@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, jsonify
 from datetime import datetime, timedelta
 from flask_dengkeng import app
 from flask_dengkeng.modules import WholeFunct, SpecifiedFunction
@@ -59,13 +59,15 @@ def whole():
 
 
 @app.route("/view/specified", methods=['GET', 'POST'])
-def specified():
-	form = DatePicker()
+def specified():	
+	form = DatePicker() 
 	data = ""
-
 	if form.validate_on_submit():
+		#dumps(datetime.now(), default=json_serial)
 		mulai = datetime.strptime((form.dt_mulai.data.strftime('%Y-%m-%d')), "%Y-%m-%d")
 		selesai = datetime.strptime((form.dt_selesai.data.strftime('%Y-%m-%d')), "%Y-%m-%d")
+		#mulai = form.dt_mulai.data.strftime('%Y-%m-%d')
+		#selesai = form.dt_selesai.data.strftime('%Y-%m-%d')
 		data = SpecifiedFunction(mulai, selesai)
 	return render_template('specified.html', data=data, title='whole', form=form)
 

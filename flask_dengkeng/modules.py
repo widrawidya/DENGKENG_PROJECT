@@ -74,7 +74,7 @@ def SpecifiedFunction(mulai, selesai) :
 	
 	#creating matplotlib graph and save image
 	df.plot.line(x='dt', y='WLevel', figsize=(15,8))
-	plt.savefig("\flask_dengkeng\static\img\whole_specified.svg")
+	plt.savefig("flask_dengkeng\static\img\whole_specified.svg")
 	plt.clf()
 
 	values = [jumlah_data, (expected-jumlah_data)]
