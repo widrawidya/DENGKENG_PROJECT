@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+	<article class="media content-section">
+		<div class="media-body">
+			<div class="article-metadata">
+				<h2 class="article-title">Perbaikan Keseluruhan Data</h2>
+			</div>
+		<p class="article-content">Penjabaran Content</p>
+		<h3 class="article-title">Grafik Tinggi Muka Air Awal</h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole.svg')}}" height="400" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Diagram Jumlah Data Awal</h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole_pie.svg')}}" height="400" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Statistik Data Awal</h3>
+			<p class="article-content">
+				Tanggal Mulai : {{ data.sampling_min }} 
+				Tanggal Selesai : {{ data.sampling_max }} 
+				Data Minimal : {{ data.min }} meter
+				Data Maksimal : {{ data.max }} meter
+				Standar Deviasi : {{ data.std }} meter
+				Jumlah Data Masuk : {{ data.num_record }} data
+				Jumlah Data Seharusnya : {{ data.num_record_expected }} data
+			</p>
+
+		{% if data_p2 == True %}
+		<p class="article-content">Hasil data tinggi muka air setelah dihapus data dari waktu {{data_p1.s_date}} sampai {{data_p1.e_date}}</p>
+		<p class="article-content">Hasil data tinggi muka air setelah data duplikat dihapus</p>
+		
+		<h3 class="article-title">Grafik Tinggi Muka Air Perbaikan 1</h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole_p1.svg')}}" height="400" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Diagram Jumlah Data Awal</h3>
+			<p class="article-content"><img src="{{url_for('static', filename='img/whole_pie_p1.svg')}}" height="400" alt="Gambar tidak tersedia" /></p>
+		<h3 class="article-title">Statistik Data Awal</h3>
+			<p class="article-content">
+				Tanggal Mulai : {{ data_p1.sampling_min }} 
+				Tanggal Selesai : {{ data_p1.sampling_max }} 
+				Data Minimal : {{ data_p1.min }} meter
+				Data Maksimal : {{ data_p1.max }} meter
+				Standar Deviasi : {{ data_p1.std }} meter
+				Jumlah Data Masuk : {{ data_p1.num_record }} data
+				Jumlah Data Seharusnya : {{ data_p1.num_record_expected }} data
+			</p>
+		{% endif %}
+
+		<p class="article-content">Perbaikan 1 : Hapus data dalam rentang waktu tertentu
+			<form method="POST" action="">
+				{{ form_p1.hidden_tag() }}
+				{{ form_p1.start_dt.label() }} : {{ form_p1.start_dt(class='datepicker') }} <br>
+				{{ form_p1.end_dt.label() }} : {{ form_p1.end_dt(class='datepicker') }}<br>
+				{{ form_p1.submit() }}
+			</form>
+		</p>
+		<p class="article-content">Perbaikan 2 : Hapus Data duplikat
+			<form method="POST" action="">
+				{{ form_p2.hidden_tag() }}
+				{{ form_p2.label }} {{ form_p2.keep }} <br>
+				{{ form_p2.submit() }}
+			</form>
+		</p>
+		</div>
+	</article>
+{% endblock content %}

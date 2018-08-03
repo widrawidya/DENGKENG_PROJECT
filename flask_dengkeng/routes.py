@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, jsonify
 from datetime import datetime, timedelta
 from flask_dengkeng import app
-from flask_dengkeng.modules import WholeFunct, SpecifiedFunction
-from flask_dengkeng.forms import DatePicker
+from flask_dengkeng.modules import WholeFunct, SpecifiedFunction, DropDataTimeRange, DropDuplicate
+from flask_dengkeng.forms import DatePicker, DatePickerSpecified, DropSubmit
 
 import os
 
@@ -48,8 +48,8 @@ def anomali():
 
 @app.route("/perbaikan")
 def perbaikan():
-	return render_template('perbaikan.html', title='Perbaikan')	
-
+	return render_template('perbaikan.html', title='Perbaikan Data')	
+	
 
 #Fungsional
 @app.route("/view/whole")
@@ -63,14 +63,33 @@ def specified():
 	form = DatePicker() 
 	data = ""
 	if form.validate_on_submit():
-		#dumps(datetime.now(), default=json_serial)
 		mulai = datetime.strptime((form.dt_mulai.data.strftime('%Y-%m-%d')), "%Y-%m-%d")
 		selesai = datetime.strptime((form.dt_selesai.data.strftime('%Y-%m-%d')), "%Y-%m-%d")
-		#mulai = form.dt_mulai.data.strftime('%Y-%m-%d')
-		#selesai = form.dt_selesai.data.strftime('%Y-%m-%d')
 		data = SpecifiedFunction(mulai, selesai)
 	return render_template('specified.html', data=data, title='whole', form=form)
 
+
+@app.route("/perbaikan/whole", methods=['GET', 'POST'])
+def p_whole():
+	form_p1 = DatePickerSpecified()
+	form_p2 = DropSubmit()
+	data = WholeFunct()
+	data_p1 = [data.copy()]
+	data_p2 = False
+	if form_p1.validate_on_submit():
+		min_dt = datetime.strptime((form_p1.start_dt.data.strftime('%Y-%m-%d %H:%M:%S')) , '%Y-%m-%d %H:%M:%S')
+		max_dt = datetime.strptime((form_p1.start_dt.data.strftime('%Y-%m-%d %H:%M:%S')) , '%Y-%m-%d %H:%M:%S')
+		data_p1.append(DropDataTimeRange(data_p1[-1]['dataframe'], min_dt, max_dt))
+		data_p2 = True
+		return render_template('p_whole.html', data=data, data_p1=data_p1[-1], data_p2=data_p2, title='Hasil pil 1', form_p1=form_p1, form_p2=form_p2)
+
+	if form_p2.validate_on_submit():
+		keep = form_p2.keep.data
+		data_p1.append(DropDuplicate(data_p1[-1]['dataframe'], keep))
+		data_p2 = True
+		return render_template('p_whole.html', data=data, data_p1=data_p1[-1], data_p2=data_p2, title='Hasil pil 2', form_p1=form_p1, form_p2=form_p2)
+
+	return render_template('p_whole.html', data=data, data_p1=data_p1, data_p2=data_p2, title='Perbaikan Keseluruhan data', form_p1=form_p1, form_p2=form_p2)
 
 
 if __name__ == '__main__':

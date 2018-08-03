@@ -1,4 +1,16 @@
 {% extends "layout.html" %}
 {% block content %}
 	<h2>Perbaikan Data Dengkeng</h2>
+	<p class='text-muted'>Memperbaiki data yang ada dengan urutan: <br>
+		1. Hapus data dalam rentang tanggal tertentu <br>
+		2. Hapus data yang terduplikasi (lebih dari 1 data dalam satuan waktu) <br>
+		3. Hapus data anomali (berdasarkan rerata dan standar deviasi yang didapat) <br>
+		4. Imputasi data yang kosong <br>
+		5. <br>
+		<ul class="list-group">
+			<a class="list-group-item list-group-item-light" href="/perbaikan/whole">Keseluruhan</a>
+			<a class="list-group-item list-group-item-light" href="/perbaikan/specified">Spesifik</a>
+			<a class="list-group-item list-group-item-light" href="#">Etc...</a>
+		</ul>
+	</p>
 {% endblock content %}

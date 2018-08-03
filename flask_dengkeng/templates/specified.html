@@ -3,15 +3,15 @@
 	<article class="media content-section">
 		<div class="media-body">
 			<div class="article-metadata">
-				<h2 class="article-title" href="#">Data Spesifik</h2>
+				<h2 class="article-title">Perbaikan data spesifik</h2>
 			</div>
 		<p class="article-content">Penjabaran Content
 			{% if data == "" %}
 			<form method="POST" action="">
-				{{ form.dt_mulai(class='datepicker') }}
-				{{ form.dt_selesai(class='datepicker') }}
 				{{ form.hidden_tag() }}
-				<input type="submit"/>
+				{{ form.dt_mulai.label() }} : {{ form.dt_mulai(class='datepicker') }}<br>
+				{{ form.dt_selesai.label() }} : {{ form.dt_selesai(class='datepicker') }}<br>
+				{{ form.submit() }}
 			</form>
 		</p>
 			{% else %}
