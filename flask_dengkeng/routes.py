@@ -22,6 +22,7 @@ posts = [
 		'date_posted': 'April 21, 2018'
 	}
 ]
+data_p1=[]
 
 
 #Utama
@@ -71,10 +72,11 @@ def specified():
 
 @app.route("/perbaikan/whole", methods=['GET', 'POST'])
 def p_whole():
+	global data_p1
 	form_p1 = DatePickerSpecified()
 	form_p2 = DropSubmit()
 	data = WholeFunct()
-	data_p1 = [data.copy()]
+	data_p1.append(data.copy())
 	data_p2 = False
 	if form_p1.validate_on_submit():
 		min_dt = datetime.strptime((form_p1.start_dt.data.strftime('%Y-%m-%d %H:%M:%S')) , '%Y-%m-%d %H:%M:%S')
